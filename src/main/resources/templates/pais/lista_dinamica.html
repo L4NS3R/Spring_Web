@@ -1,0 +1,38 @@
+<html data-theme="light" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <title>Países do Mundo</title>
+</head>
+<body class="bg-base-200 p-8">
+    <h1 class="text-5xl mb-4">Países do Mundo</h1>
+    <div class="mt-2 mb-2">
+        <span><a href="/">Início</a></span>
+    </div>
+    <div>
+        <p>Não há países cadastrados</p>
+    </div>
+    <div th:unless="${lista.isEmpty}" class="overflow-x-auto rounded-box border border-base-content/5 bg-base-100">
+        <table class="table">
+            <thead>
+                <tr>
+                <td>ID</td>
+                <td>Bandeira</td>
+                <td>Nome</td>
+                <td>Capital</td>
+                <td>Continente</td>
+                </tr>
+            </thead>
+            <tbody>
+            <tr th:each="p : ${lista}" class="hover:bg-base-300">
+                <td th:text="${p.id}">{p.id}</td>
+                <td><img  width="80" th:src="${p.bandeiraUrl}"></td>
+                <td th:text="${p.nome}">${p.nome}</td>
+                <td th:text="${p.capital}">${p.capital}</td>
+                <td th:text="${p.continente}">{p.continente}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

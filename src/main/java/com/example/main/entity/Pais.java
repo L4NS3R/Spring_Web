@@ -23,7 +23,7 @@ public class Pais {
         this.id = id;
         this.nome = nome;
         this.capital = capital;
-        this.conttinente = continente;
+        this.continente = continente;
         this.bandeiraUrl = bandeiraUrl;
     }
 

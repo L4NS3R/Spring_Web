@@ -30,7 +30,7 @@ public class PaisService {
         repository.deleteAll();
     }
 
-    public void criarpaises(){
+    public void criarPaises(){
         var p = new Pais();
         p.setNome("Brasil");
         p.setCapital("Brasilia");
