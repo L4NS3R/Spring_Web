@@ -1,38 +1,167 @@
-<html data-theme="light" xmlns:th="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <title>Países do Mundo</title>
+    <meta charset="UTF-8">
+    <title>🎬 Lista de Filmes</title>
+    <style>
+        /* RESET */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #f7f9fc;
+            color: #333;
+            padding: 40px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: auto;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            padding: 30px;
+        }
+
+        h1 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            color: #111827;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        h1::before {
+            content: "🎬";
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .botao {
+            background: #22c55e;
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 6px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .botao:hover {
+            background: #16a34a;
+            transform: scale(1.05);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 15px;
+        }
+
+        th {
+            background: #22c55e;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 12px 10px;
+        }
+
+        td {
+            padding: 12px 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        tr:hover {
+            background-color: #f0fdf4;
+        }
+
+        .acoes {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-delete {
+            background: #ef4444;
+        }
+
+        .btn-delete:hover {
+            background: #dc2626;
+        }
+
+        .empty {
+            text-align: center;
+            color: #777;
+            padding: 40px 0;
+            font-style: italic;
+        }
+
+        footer {
+            margin-top: 30px;
+            text-align: center;
+            font-size: 13px;
+            color: #888;
+        }
+    </style>
 </head>
-<body class="bg-base-200 p-8">
-    <h1 class="text-5xl mb-4">Países do Mundo</h1>
-    <div class="mt-2 mb-2">
-        <span><a href="/">Início</a></span>
+
+<body>
+<div class="container">
+    <div class="topbar">
+        <h1>Lista de Filmes</h1>
+        <a class="botao" href="#" id="adicionarFilmeBtn">+ Adicionar Filme</a>
     </div>
-    <div>
-        <p>Não há países cadastrados</p>
-    </div>
-    <div th:unless="${lista.isEmpty}" class="overflow-x-auto rounded-box border border-base-content/5 bg-base-100">
-        <table class="table">
-            <thead>
-                <tr>
-                <td>ID</td>
-                <td>Bandeira</td>
-                <td>Nome</td>
-                <td>Capital</td>
-                <td>Continente</td>
-                </tr>
-            </thead>
-            <tbody>
-            <tr th:each="p : ${lista}" class="hover:bg-base-300">
-                <td th:text="${p.id}">{p.id}</td>
-                <td><img  width="80" th:src="${p.bandeiraUrl}"></td>
-                <td th:text="${p.nome}">${p.nome}</td>
-                <td th:text="${p.capital}">${p.capital}</td>
-                <td th:text="${p.continente}">{p.continente}</td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Título</th>
+            <th>Gênero</th>
+            <th>Diretor</th>
+            <th>Ano</th>
+            <th>Duração</th>
+            <th style="text-align:center;">Ações</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:if="${#lists.isEmpty(filmes)}">
+            <td class="empty" colspan="6">Nenhum filme cadastrado ainda 🎞️</td>
+        </tr>
+        <tr th:each="filme : ${filmes}">
+            <td th:text="${filme.titulo}">Título</td>
+            <td th:text="${filme.genero}">Gênero</td>
+            <td th:text="${filme.diretor}">Diretor</td>
+            <td th:text="${filme.ano}">Ano</td>
+            <td th:text="${filme.duracao}">Duração</td>
+            <td style="text-align:center;">
+                <div class="acoes">
+                    <a class="botao btn-delete" th:href="@{'/filmes/deletar/' + ${filme.id}}">Excluir</a>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <footer>Medic Imagem Filmes © 2025</footer>
+</div>
+<script>
+    document.getElementById("adicionarFilmeBtn").addEventListener("click", async (e) => {
+        e.preventDefault(); // não recarrega a página
+
+        try {
+            const response = await fetch("/filmes/adicionar");
+            location.reload()
+        } catch (error) {
+            console.error("Erro ao adicionar filme:", error);
+            alert("Erro ao adicionar filme.");
+        }
+    });
+</script>
 </body>
 </html>

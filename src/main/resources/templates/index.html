@@ -1,11 +1,41 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Hello World</title>
+    <title>Cadastro de Filme</title>
+    <style>
+        body { font-family: Arial; background: #f4f4f4; padding: 40px; }
+        form { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); width: 400px; margin: 0 auto; }
+        input { width: 100%; margin-bottom: 10px; padding: 8px; border: 1px solid #ccc; border-radius: 5px; }
+        button { background: #22c55e; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; }
+        button:hover { background: #16a34a; }
+        h1 { text-align: center; color: #333; }
+    </style>
 </head>
 <body>
-<h1>Hello World</h1>
-<p> Minha primeira página Spring Web</p>
+<h1>Cadastrar Filme</h1>
+
+<form th:action="@{/filmes/salvar}" th:object="${filme}" method="post">
+    <input type="hidden" th:field="*{id}">
+    <label>Título:</label>
+    <input type="text" th:field="*{titulo}" required>
+
+    <label>Gênero:</label>
+    <input type="text" th:field="*{genero}" required>
+
+    <label>Diretor:</label>
+    <input type="text" th:field="*{diretor}" required>
+
+    <label>Ano:</label>
+    <input type="number" th:field="*{ano}" required>
+
+    <label>Duração:</label>
+    <input type="text" th:field="*{duracao}" required>
+
+    <label>Imagem (URL):</label>
+    <input type="text" th:field="*{imagemUrl}">
+
+    <button type="submit">Salvar</button>
+</form>
 </body>
 </html>
